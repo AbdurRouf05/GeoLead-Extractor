@@ -19,7 +19,7 @@ def selenium_scrape_single(kw, loc, ctr, limit, extract_email=False, email_black
     
     coords = get_coordinates_cached(full_location)
     if coords is None:
-        st.warning(f"⚠️ Lewati: {full_location} (koordinat tidak ditemukan)")
+        st.warning(f"Lewati: {full_location} (koordinat tidak ditemukan)")
         return []
 
     lat, lng = coords
@@ -58,7 +58,7 @@ def selenium_scrape_single(kw, loc, ctr, limit, extract_email=False, email_black
                 last_height = new_height
                 scroll_count += 1
         except Exception as e:
-            st.warning(f"⚠️ Scroll feed gagal: {str(e)}")
+            st.warning(f"Scroll feed gagal: {str(e)}")
 
         items = driver.find_elements(By.XPATH, '//div[contains(@role, "article")]')
         if not items:
@@ -112,7 +112,7 @@ def selenium_scrape_single(kw, loc, ctr, limit, extract_email=False, email_black
                 address = clean_text(raw_address)
                 phone = clean_text(raw_phone)
 
-                # ✅ Ambil Email di Tab Baru (tidak ganggu halaman utama)
+                # Ambil Email di Tab Baru (tidak ganggu halaman utama)
                 email = "N/A"
                 if extract_email and website != "N/A":
                     email = extract_email_from_website_in_new_tab(driver, website)
