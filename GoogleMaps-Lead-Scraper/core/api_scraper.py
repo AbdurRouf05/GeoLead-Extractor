@@ -21,21 +21,39 @@ def rapidapi_scrape(query, loc, ctr, limit, api_key):
     offset = 0
     retry_count = 0
     max_retries = 3
+    api_mode = 1 # 1: maps-data, 2: unlimited-google-maps (fallback)
     
     while len(results) < limit:
-        params = {
-            "query": search_query, 
-            "limit": "20", 
-            "country": "id", # Bisa disesuaikan dengan negara
-            "lang": "id", 
-            "offset": str(offset)
-        }
-        
+        if api_mode == 1:
+            url = "https://maps-data.p.rapidapi.com/searchmaps.php"
+            headers = {
+                "x-rapidapi-host": "maps-data.p.rapidapi.com",
+                "x-rapidapi-key": api_key
+            }
+            params = {
+                "query": search_query, 
+                "limit": "20", 
+                "country": "id", 
+                "lang": "id", 
+                "offset": str(offset)
+            }
+        else:
+            url = "https://unlimited-google-maps.p.rapidapi.com/api/maps/simple-search"
+            headers = {
+                "x-rapidapi-host": "unlimited-google-maps.p.rapidapi.com",
+                "x-rapidapi-key": api_key
+            }
+            params = {"query": search_query} # API ini tidak menggunakan offset yang sama
+            
         try:
             r = requests.get(url, headers=headers, params=params, timeout=30)
             if r.status_code == 200:
                 retry_count = 0 # Reset retry on success
-                data = r.json().get("data", [])
+                
+                # API 1 menggunakan key "data", API 2 menggunakan key "items"
+                json_data = r.json()
+                data = json_data.get("data", []) if api_mode == 1 else json_data.get("items", [])
+                
                 if not data:
                     break # Tidak ada data lagi
                 
@@ -64,20 +82,28 @@ def rapidapi_scrape(query, loc, ctr, limit, api_key):
                         "Google Maps URL": item.get("place_link", "N/A") or "N/A"
                     })
                 
-                offset += 20
-                if len(data) < 20:
-                    break # Data sudah habis di halaman ini
-                    
-                time.sleep(1) # Delay wajar antar request API
+                if api_mode == 1:
+                    offset += 20
+                    if len(data) < 20:
+                        break # Data sudah habis di halaman ini
+                    time.sleep(1) # Delay wajar antar request API
+                else:
+                    break # Fallback API tidak mendukung pagination simple, jadi kita ambil 1 halaman saja
                 
             elif r.status_code == 403 or r.status_code == 401:
-                st.error("API Key tidak valid atau tidak memiliki akses ke endpoint ini.")
+                st.error("API Key tidak valid atau tidak berlangganan ke endpoint ini.")
                 break
             elif r.status_code == 429:
                 retry_count += 1
                 if retry_count > max_retries:
-                    st.error("Rate limit (batas kuota API) Anda mungkin sudah habis atau terblokir. Proses dihentikan.")
-                    break
+                    if api_mode == 1:
+                        st.toast("Rate limit API pertama habis. Beralih ke API cadangan (Unlimited Google Maps)...")
+                        api_mode = 2 # Switch to fallback API
+                        retry_count = 0 # Reset retry for new API
+                        continue
+                    else:
+                        st.error("Kedua API telah mencapai batas kuota (Rate limit). Proses dihentikan.")
+                        break
                     
                 st.toast(f"Rate limit API tercapai. Menunggu 5 detik (Percobaan {retry_count}/{max_retries})...")
                 time.sleep(5)
