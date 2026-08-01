@@ -1,58 +1,63 @@
 # GeoLead Extractor
 
-A professional Python and Streamlit-based tool designed to automatically extract high-quality business leads from Google Maps. It provides a user-friendly web interface that requires no programming knowledge to operate.
+Aplikasi otomatis berbasis Python dan Streamlit yang dirancang untuk membantu Anda mencari dan mengumpulkan data calon pelanggan (leads) bisnis dari Google Maps. Aplikasi ini dibuat dengan antarmuka yang bersih dan ramah pengguna, sehingga Anda dapat langsung menggunakannya tanpa perlu memahami pemrograman.
 
-This tool is optimized for B2B Lead Generation, digital marketing agencies, comprehensive business research, and cold outreach campaigns.
+Sangat cocok digunakan untuk kebutuhan marketing B2B (Business-to-Business), agensi pemasaran digital, riset pasar, hingga kampanye penawaran langsung (cold outreach).
 
-## Key Features
-- **Global & Local Scraping**: Search and extract business data across specific cities or globally based on target niches.
-- **Dual Engine Architecture**: 
-  - **Manual Engine (Selenium)**: Operates locally using headless browser automation.
-  - **API Engine (RapidAPI)**: Connects directly to `maps-data` endpoint for high-speed, stable, and large-scale data retrieval.
-- **Automated Email Extraction**: Integrates website crawling to scan and capture official business email addresses directly from their websites.
-- **Smart Data Filtering**: Built-in blacklist system to automatically filter out generic emails (e.g., info@, support@) and major corporate franchises (e.g., Starbucks, McDonald's) to ensure the relevance of your leads.
-- **Data Export**: Seamlessly export extracted leads into a neatly formatted `.xlsx` (Excel) file.
+## Fitur Utama
 
-## System Requirements
-- Python 3.8 or newer
-- Google Chrome browser (Required for the Manual/Selenium engine)
+- **Pencarian Skala Global dan Lokal**: Cari dan kumpulkan data bisnis di satu kota tertentu atau di banyak kota sekaligus sesuai target bisnis Anda.
+- **Sistem Scraping Ganda (Dual Engine)**:
+  - **Manual Engine (Selenium)**: Bekerja langsung dari komputer Anda dengan membuka browser secara tersembunyi.
+  - **API Engine (RapidAPI)**: Menggunakan koneksi langsung ke penyedia data (maps-data) untuk proses pencarian yang sangat cepat, stabil, dan berskala besar.
+- **Pencarian Email Otomatis**: Bot akan mencoba mengunjungi situs web dari masing-masing bisnis untuk memindai dan mencatat alamat email resmi mereka (khusus untuk mode Manual).
+- **Penyaringan Data Otomatis**: Dilengkapi dengan fitur Blacklist untuk menyortir dan membuang email umum (seperti info@, admin@) serta bisnis waralaba besar (seperti Starbucks, KFC) agar data yang Anda dapatkan lebih berkualitas dan tepat sasaran.
+- **Ekspor Data Rapi**: Hasil pencarian dapat langsung diunduh dalam bentuk file Excel (.xlsx) yang siap digunakan.
 
-## Installation Guide
+## Kebutuhan Sistem
 
-1. **Clone the repository:**
+- Python versi 3.8 atau yang lebih baru.
+- Browser Google Chrome terinstal di komputer Anda (Diperlukan jika menggunakan metode Manual/Selenium).
+
+## Panduan Instalasi
+
+1. **Unduh Repositori:**
    ```bash
    git clone https://github.com/AbdurRouf05/GeoLead-Extractor.git
    cd GeoLead-Extractor
    ```
 
-2. **Install Python dependencies:**
+2. **Instal Modul yang Dibutuhkan:**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Run the Application:**
-   For Windows users, simply double-click the executable batch script:
+3. **Jalankan Aplikasi:**
+   Bagi pengguna Windows, Anda cukup mengklik dua kali pada file:
    **`run.bat`**
 
-   Alternatively, start the application manually via the terminal:
+   Atau jalankan secara manual melalui terminal dengan perintah:
    ```bash
    cd GoogleMaps-Lead-Scraper
    streamlit run app.py
    ```
 
-## Usage Instructions
-1. Open your browser and navigate to `http://localhost:8501`.
-2. Enter your target niches/keywords in the input panel (e.g., `software agency`, `digital marketing`).
-3. Select your preferred Scraping Engine (API or Manual). Note: The API engine requires a valid RapidAPI Key.
-4. Specify the target Location (City/Country).
-5. Enable the "Extract Email from Website" feature if you need contact emails (only available on the Manual engine).
-6. Click the "Start Scraping" button and wait for the completion progress bar.
-7. Click "Download Excel" to save the final dataset.
+## Cara Penggunaan
 
-## Important Notes
-- **Performance**: The speed of the Manual Engine heavily depends on your internet connection and system RAM. For large-scale scraping, the API engine is highly recommended.
-- **Maintenance**: Web structures change frequently. Ensure you keep the application updated to maintain compatibility with the latest search layouts.
+1. Buka browser Anda dan kunjungi alamat `http://localhost:8501`.
+2. Pada panel sebelah kiri, masukkan variasi kata kunci target bisnis Anda (misalnya: `software agency`, `digital marketing`).
+3. Pilih metode Scraping (API atau Manual). Khusus untuk metode API, pastikan Anda telah memiliki dan memasukkan API Key dari RapidAPI.
+4. Tentukan lokasi pencarian (Nama Kota dan Negara).
+5. Centang opsi pencarian email jika Anda membutuhkan kontak email.
+6. Klik tombol Mulai dan tunggu hingga proses pencarian data selesai 100%.
+7. Setelah selesai, klik tombol Download Excel untuk menyimpan hasil akhirnya.
+
+## Catatan Penting
+
+- **Kecepatan**: Kecepatan pencarian pada mode Manual sangat bergantung pada koneksi internet dan RAM komputer Anda. Jika Anda ingin mencari data dalam jumlah yang masif, kami sangat menyarankan Anda menggunakan mode API.
+- **Pembaruan**: Struktur website Google Maps dapat berubah sewaktu-waktu. Pastikan Anda selalu menggunakan versi aplikasi terbaru agar sistem tetap dapat membaca data dengan akurat.
 
 ---
-### License
-This project is open-source. Please use this tool responsibly, ethically, and in compliance with the target websites' terms of service and privacy policies.
+
+### Lisensi
+Aplikasi ini bersifat open-source. Kami mengimbau Anda untuk selalu menggunakan perangkat lunak ini secara etis dan mematuhi kebijakan privasi dari website target Anda.
